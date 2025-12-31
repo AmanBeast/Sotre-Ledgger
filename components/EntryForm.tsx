@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Plus, Trash2, User, Package, Check, ArrowRight, ShoppingCart, Banknote } from 'lucide-react';
+import { X, Plus, Trash2, User, ArrowRight, ShoppingCart, Banknote } from 'lucide-react';
 import { InventoryItem, TransactionLineItem, LedgerEntry, EntryType } from '../types';
 
 interface EntryFormProps {
@@ -91,55 +91,55 @@ const EntryForm: React.FC<EntryFormProps> = ({ inventory, existingCustomers, onS
   };
 
   return (
-    <div className="fixed inset-0 bg-blue-900/40 backdrop-blur-md z-[100] flex items-end md:items-center justify-center p-0 md:p-4">
-      <div className="bg-white w-full max-w-5xl h-[94vh] md:h-auto md:max-h-[90vh] rounded-t-[24px] md:rounded-[40px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center p-0 md:p-4">
+      <div className="bg-white w-full max-w-4xl h-[95vh] md:h-auto md:max-h-[90vh] rounded-t-[20px] md:rounded-[32px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
         
-        {/* Header */}
-        <div className="px-5 py-3 md:px-10 md:py-6 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center space-x-3 md:space-x-6">
-            <div className="bg-blue-800 p-2 md:p-3 rounded-xl md:rounded-2xl text-white shadow-lg shadow-blue-200/50">
-              <Plus size={18} className="md:w-8 md:h-8" strokeWidth={3} />
+        {/* Header - Compact */}
+        <div className="px-4 py-3 md:px-8 md:py-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="bg-blue-600 p-1.5 md:p-2.5 rounded-lg md:rounded-xl text-white">
+              <Plus size={16} className="md:w-6 md:h-6" strokeWidth={3} />
             </div>
             <div>
-              <h3 className="text-lg md:text-3xl font-black text-slate-800 tracking-tight">Add Record</h3>
-              <p className="text-slate-400 font-bold uppercase tracking-widest text-[9px] md:text-xs">New Ledger Entry</p>
+              <h3 className="text-base md:text-2xl font-black text-slate-800 leading-none">New Record</h3>
+              <p className="text-slate-400 font-bold uppercase tracking-widest text-[8px] md:text-[10px] mt-1">General Store Ledger</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all">
-            <X size={24} className="md:w-10 md:h-10" />
+          <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all">
+            <X size={20} className="md:w-8 md:h-8" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-4 md:p-8 space-y-5 md:space-y-8">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-auto p-4 md:p-8 space-y-4 md:space-y-6">
           
-          {/* Section 1: Customer */}
-          <div className="space-y-2">
-            <label className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block">Customer Name</label>
+          {/* Customer Input - Optimized for mobile */}
+          <div className="space-y-1.5">
+            <label className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest block">Customer Name</label>
             <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                <User size={18} className="md:w-6 md:h-6" />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                <User size={14} className="md:w-5 md:h-5" />
               </div>
               <input 
                 autoFocus
                 type="text"
-                placeholder="Type name..."
+                placeholder="Search or enter name..."
                 value={customerName}
                 onFocus={() => setShowCustomerSuggestions(true)}
                 onChange={(e) => setCustomerName(e.target.value)}
                 autoComplete="off"
-                className="w-full pl-11 md:pl-16 pr-4 py-3 md:py-6 bg-slate-50 border-2 border-slate-200 focus:border-blue-600 focus:bg-white rounded-xl md:rounded-2xl outline-none transition-all text-base md:text-xl font-black text-slate-900 placeholder:text-slate-300"
+                className="w-full pl-9 md:pl-12 pr-4 py-2.5 md:py-4 bg-slate-50 border-2 border-slate-200 focus:border-blue-600 focus:bg-white rounded-xl outline-none transition-all text-sm md:text-lg font-bold text-slate-900 placeholder:text-slate-300"
               />
               {showCustomerSuggestions && filteredCustomerSuggestions.length > 0 && (
-                <div ref={suggestionRef} className="absolute z-[110] left-0 right-0 mt-2 bg-white border-2 border-slate-100 rounded-xl md:rounded-[24px] shadow-2xl p-1 md:p-2 space-y-0.5">
+                <div ref={suggestionRef} className="absolute z-[110] left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl p-1 max-h-40 overflow-auto">
                   {filteredCustomerSuggestions.map(name => (
                     <button 
                       key={name} 
                       type="button"
                       onClick={() => { setCustomerName(name); setShowCustomerSuggestions(false); }}
-                      className="w-full text-left px-3 md:px-5 py-2.5 md:py-4 rounded-lg md:rounded-xl hover:bg-blue-50 text-sm md:text-lg font-black text-slate-700 flex items-center justify-between group"
+                      className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-blue-50 text-xs md:text-base font-bold text-slate-700 flex items-center justify-between"
                     >
                       <span>{name}</span>
-                      <ArrowRight size={16} className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity md:w-5 md:h-5" />
+                      <ArrowRight size={12} className="text-blue-500 opacity-50" />
                     </button>
                   ))}
                 </div>
@@ -147,51 +147,48 @@ const EntryForm: React.FC<EntryFormProps> = ({ inventory, existingCustomers, onS
             </div>
           </div>
 
-          {/* Section 2: Type Toggle */}
-          <div className="space-y-2">
-            <label className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block">Entry Type</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button 
-                type="button"
-                onClick={() => setType('SALE')}
-                className={`flex items-center justify-center space-x-2 py-3 md:py-6 rounded-xl md:rounded-2xl border-2 transition-all ${type === 'SALE' ? 'bg-orange-600 border-orange-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
-              >
-                <ShoppingCart size={18} className="md:w-6 md:h-6" />
-                <span className="text-sm md:text-xl font-black">Gave Goods</span>
-              </button>
-              <button 
-                type="button"
-                onClick={() => setType('PAYMENT')}
-                className={`flex items-center justify-center space-x-2 py-3 md:py-6 rounded-xl md:rounded-2xl border-2 transition-all ${type === 'PAYMENT' ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'}`}
-              >
-                <Banknote size={18} className="md:w-6 md:h-6" />
-                <span className="text-sm md:text-xl font-black">Received Cash</span>
-              </button>
-            </div>
+          {/* Type Toggle - Smaller buttons */}
+          <div className="grid grid-cols-2 gap-2 md:gap-4">
+            <button 
+              type="button"
+              onClick={() => setType('SALE')}
+              className={`flex items-center justify-center space-x-2 py-2.5 md:py-4 rounded-xl border-2 transition-all ${type === 'SALE' ? 'bg-orange-600 border-orange-600 text-white shadow-sm' : 'bg-white border-slate-200 text-slate-400'}`}
+            >
+              <ShoppingCart size={14} className="md:w-5 md:h-5" />
+              <span className="text-xs md:text-lg font-black uppercase">Goods Out</span>
+            </button>
+            <button 
+              type="button"
+              onClick={() => setType('PAYMENT')}
+              className={`flex items-center justify-center space-x-2 py-2.5 md:py-4 rounded-xl border-2 transition-all ${type === 'PAYMENT' ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm' : 'bg-white border-slate-200 text-slate-400'}`}
+            >
+              <Banknote size={14} className="md:w-5 md:h-5" />
+              <span className="text-xs md:text-lg font-black uppercase">Cash In</span>
+            </button>
           </div>
 
-          {/* Section 3: Sale Items */}
+          {/* Items Section - Very tight for mobile */}
           {type === 'SALE' ? (
             <div className="space-y-3">
-              <label className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block">Goods Taken</label>
-              <div className="space-y-3">
+              <label className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest block">Items List</label>
+              <div className="space-y-2">
                 {items.map((item, idx) => (
-                  <div key={idx} className="flex flex-col p-3 md:p-5 bg-slate-50 rounded-xl md:rounded-[24px] border border-slate-200 gap-3">
-                    {/* Item Name Search / Manual Entry */}
+                  <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+                    {/* Item Name Input */}
                     <div className="relative">
                       <input 
                         type="text"
-                        placeholder="Item name..."
+                        placeholder="What did they buy?"
                         value={item.name}
                         onFocus={() => { setActiveItemSuggestionIdx(idx); setSearchTerm(item.name); }}
                         onChange={(e) => { 
                           updateItem(idx, { name: e.target.value }); 
                           setSearchTerm(e.target.value); 
                         }}
-                        className="w-full px-4 py-2.5 md:py-4 rounded-lg md:rounded-xl bg-white border-2 border-slate-200 focus:border-blue-600 text-sm md:text-lg font-black text-slate-900 outline-none"
+                        className="w-full px-3 py-2 rounded-lg bg-white border-2 border-slate-200 focus:border-blue-600 text-xs md:text-base font-bold text-slate-900 outline-none"
                       />
                       {activeItemSuggestionIdx === idx && filteredItemSuggestions.length > 0 && (
-                        <div ref={suggestionRef} className="absolute z-[110] left-0 right-0 mt-1 bg-white border-2 border-slate-100 rounded-lg md:rounded-xl shadow-xl p-0.5 max-h-32 overflow-auto">
+                        <div ref={suggestionRef} className="absolute z-[110] left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg p-0.5 max-h-32 overflow-auto">
                           {filteredItemSuggestions.map(s => (
                             <button 
                               key={s.id}
@@ -200,52 +197,47 @@ const EntryForm: React.FC<EntryFormProps> = ({ inventory, existingCustomers, onS
                                 updateItem(idx, { itemId: s.id, name: s.name, price: s.price }); 
                                 setActiveItemSuggestionIdx(null); 
                               }}
-                              className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 flex justify-between font-bold text-xs"
+                              className="w-full text-left px-3 py-2 rounded hover:bg-blue-50 flex justify-between font-bold text-[10px]"
                             >
                               <span className="text-slate-800">{s.name}</span>
-                              <span className="text-blue-600 font-black">₹{s.price}</span>
+                              <span className="text-blue-600">₹{s.price}</span>
                             </button>
                           ))}
                         </div>
                       )}
                     </div>
 
-                    <div className="grid grid-cols-12 items-center gap-2">
-                      {/* UNIT PRICE BOX */}
-                      <div className="col-span-4 bg-white rounded-lg md:rounded-xl border-2 border-slate-200 focus-within:border-blue-600 px-2 py-1.5 md:px-3 md:py-3 flex flex-col items-center justify-center">
-                        <span className="text-[7px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">PRICE</span>
+                    <div className="grid grid-cols-12 gap-2 items-end">
+                      {/* Price input */}
+                      <div className="col-span-4 space-y-0.5">
+                        <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Price</span>
                         <input 
                           type="number"
-                          placeholder="0"
                           value={item.price || ''}
                           onChange={(e) => updateItem(idx, { price: parseFloat(e.target.value) || 0 })}
-                          className="w-full text-center text-xs md:text-lg font-black text-slate-900 bg-white outline-none border-none p-0"
+                          className="w-full px-2 py-2 rounded-lg bg-white border-2 border-slate-200 text-xs font-black text-center"
                         />
                       </div>
-
-                      {/* QTY BOX */}
-                      <div className="col-span-3 bg-white rounded-lg md:rounded-xl border-2 border-slate-200 focus-within:border-blue-600 px-2 py-1.5 md:px-3 md:py-3 flex flex-col items-center justify-center">
-                        <span className="text-[7px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">QTY</span>
+                      {/* Qty input */}
+                      <div className="col-span-3 space-y-0.5">
+                        <span className="text-[8px] font-black text-slate-400 uppercase tracking-tighter">Qty</span>
                         <input 
                           type="number"
                           step="0.001"
-                          min="0"
                           value={item.quantity}
                           onChange={(e) => updateItem(idx, { quantity: parseFloat(e.target.value) || 0 })}
-                          className="w-full text-center text-xs md:text-lg font-black text-slate-900 bg-white outline-none border-none p-0"
+                          className="w-full px-2 py-2 rounded-lg bg-white border-2 border-slate-200 text-xs font-black text-center"
                         />
                       </div>
-
-                      {/* ROW TOTAL */}
-                      <div className="col-span-3 text-right">
-                        <div className="text-[7px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">TOTAL</div>
-                        <div className="text-sm md:text-xl font-black text-slate-800">₹{Math.round(item.price * item.quantity).toLocaleString()}</div>
+                      {/* Subtotal display */}
+                      <div className="col-span-3 pb-2 text-right">
+                        <span className="text-[8px] font-black text-slate-400 uppercase block mb-0.5">Subtotal</span>
+                        <span className="text-xs font-black text-slate-800">₹{Math.round(item.price * item.quantity)}</span>
                       </div>
-
-                      {/* REMOVE BUTTON */}
-                      <div className="col-span-2 flex justify-end">
-                        <button type="button" onClick={() => handleRemoveItemRow(idx)} className="p-1.5 md:p-3 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                          <Trash2 size={18} className="md:w-6 md:h-6" />
+                      {/* Trash button */}
+                      <div className="col-span-2 pb-1.5 flex justify-end">
+                        <button type="button" onClick={() => handleRemoveItemRow(idx)} className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg">
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </div>
@@ -255,55 +247,55 @@ const EntryForm: React.FC<EntryFormProps> = ({ inventory, existingCustomers, onS
               <button 
                 type="button"
                 onClick={handleAddItemRow}
-                className="w-full py-3 md:py-5 border-2 border-dashed border-slate-200 rounded-xl md:rounded-[24px] text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50/30 transition-all font-black text-sm md:text-lg flex items-center justify-center gap-2"
+                className="w-full py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all font-bold text-xs flex items-center justify-center gap-1.5"
               >
-                <Plus size={18} />
+                <Plus size={14} />
                 <span>Add Item</span>
               </button>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block">Cash Received Amount</label>
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest block">Cash Received (₹)</label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl md:text-4xl font-black text-slate-300">₹</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-black text-slate-300">₹</span>
                   <input 
                     type="number"
                     placeholder="0"
                     value={paymentAmount}
                     onChange={(e) => setPaymentAmount(e.target.value)}
-                    className="w-full pl-10 md:pl-16 pr-4 py-5 md:py-10 bg-slate-50 border-2 border-slate-200 focus:border-emerald-600 focus:bg-white rounded-xl md:rounded-[32px] outline-none transition-all text-2xl md:text-5xl font-black text-slate-900"
+                    className="w-full pl-10 pr-4 py-4 bg-slate-50 border-2 border-slate-200 focus:border-emerald-600 focus:bg-white rounded-2xl outline-none text-3xl font-black text-slate-900"
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest block">Note</label>
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest block">Note (Optional)</label>
                 <input 
                   type="text"
-                  placeholder="Gpay, Cash, etc."
+                  placeholder="Gpay, Part payment, etc..."
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  className="w-full px-4 py-3 md:py-5 bg-slate-50 border-2 border-slate-200 rounded-lg md:rounded-xl outline-none text-sm md:text-lg font-bold text-slate-800"
+                  className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl outline-none text-xs font-bold text-slate-800"
                 />
               </div>
             </div>
           )}
         </form>
 
-        {/* Footer with Summary and Action */}
-        <div className={`px-5 py-4 md:px-10 md:py-8 flex items-center justify-between gap-4 ${type === 'SALE' ? 'bg-orange-50' : 'bg-emerald-50'}`}>
-          <div>
-            <span className="text-[9px] md:text-xs font-black uppercase tracking-widest text-slate-400">Total</span>
-            <div className={`text-2xl md:text-5xl font-black tracking-tighter ${type === 'SALE' ? 'text-orange-600' : 'text-emerald-600'}`}>
+        {/* Footer - Compact and mobile friendly */}
+        <div className={`px-4 py-4 md:px-8 md:py-6 flex items-center justify-between gap-3 ${type === 'SALE' ? 'bg-orange-50' : 'bg-emerald-50'}`}>
+          <div className="flex-1">
+            <span className="text-[8px] md:text-[10px] font-black uppercase text-slate-400 block mb-0.5">Total Amount</span>
+            <div className={`text-xl md:text-3xl font-black leading-none ${type === 'SALE' ? 'text-orange-600' : 'text-emerald-600'}`}>
               ₹{Math.round(total).toLocaleString('en-IN')}
             </div>
           </div>
           <button 
             onClick={handleSubmit}
             disabled={!customerName || (type === 'SALE' && items.every(i => i.name.trim() === '')) || (type === 'PAYMENT' && !paymentAmount)}
-            className={`px-6 md:px-12 py-3 md:py-6 rounded-xl md:rounded-[32px] text-base md:text-2xl font-black shadow-lg transition-all active:scale-95 disabled:opacity-30 disabled:grayscale ${type === 'SALE' ? 'bg-orange-600 text-white' : 'bg-emerald-600 text-white'}`}
+            className={`px-6 md:px-10 py-3 md:py-4 rounded-xl text-sm md:text-xl font-black shadow-md transition-all active:scale-95 disabled:opacity-30 ${type === 'SALE' ? 'bg-orange-600 text-white' : 'bg-emerald-600 text-white'}`}
           >
-            Save Record
+            Save Entry
           </button>
         </div>
       </div>
