@@ -167,9 +167,10 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ inventory, onSubmit, 
                       <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">Qty</span>
                       <input 
                         type="number"
-                        min="1"
+                        step="0.001"
+                        min="0"
                         value={item.quantity}
-                        onChange={(e) => updateItem(idx, { quantity: parseInt(e.target.value) || 0 })}
+                        onChange={(e) => updateItem(idx, { quantity: parseFloat(e.target.value) || 0 })}
                         className="w-full pl-10 pr-2 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-center font-mono text-slate-900 focus:outline-none"
                       />
                     </div>
